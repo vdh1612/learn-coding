@@ -14,7 +14,8 @@
         $username = $user['username'];
         $password = $user['password'];
         $user_id = $user['id'];
-        if ($username === $post_username && $password === $post_password){
+        // ramdom_username' UNION SELECT '1', 'admin', '123' FROM users WHERE username = 'admin'# payload created by thinh 
+        if ($password === $post_password){
             $_SESSION['user'] = $username;
             $_SESSION['user_id'] = $user_id;
             header('Location:index.php');
