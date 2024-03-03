@@ -1,3 +1,35 @@
+<?php
+    session_start();
+    include('../database.php');
+    
+    $add_failed = false;
+
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        $title = $_POST['title'];
+        $content = $_POST['content'];
+        $user_id = $_SESSION['user_id'];
+
+        $sql = "SELECT title FROM blogs WHERE title = '$title'";
+        $query = $conn->query($sql);
+
+        if($query->num_rows > 0){
+            $add_failed = true;
+        } else {
+            $sql = "INSERT INTO blogs (user_id, title, content) VALUES ('$user_id', '$title', '$content')";   
+            
+            if ($conn->query($sql) === TRUE){
+                header('Location:../blog.php');
+                exit();
+            } else {
+                echo 'Error: ' . $conn->error;
+                $add_failed = true;
+            }
+        }
+    }
+
+    $conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,33 +45,10 @@
         <textarea name="content" id="content" cols="30" rows="10"></textarea><br>
         <input type="submit" name="submit" value="submit">
     </form>
-    <?php
-        session_start();
-        include('../database.php');
-        $add_failed = false;
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $title = $_POST['title'];
-            $content = $_POST['content'];
-            $user_id = $_SESSION['user_id'];
-            $sql = "SELECT title FROM blogs WHERE title = '$title'";
-            $query = $conn->query($sql);
-            if($query->num_rows > 0){
-                $add_failed = true;
-            }else{
-                $sql = "INSERT INTO blogs (user_id, title, content) VALUES ('$user_id', '$title', '$content')";   
-                if ($conn->query($sql) === TRUE){
-                    header('Location:../blog.php');
-                }else{
-                    echo 'Error: ' . $conn->error;
-                    $register_failed = true;
-                }
-            }
-        }
-        $conn->close();
-    ?>
+
     <?php 
-        if ($add_failed === TRUE){
-            echo 'this blog already exists'; 
+        if ($add_failed === true){
+            echo 'This blog already exists or there was an error.'; 
         }
     ?>
 </body>

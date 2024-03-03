@@ -19,11 +19,11 @@ INSERT INTO `users` (`id`, `username`, `password`) VALUES (4, 'thinh', 'yugioh')
 
 
 DROP TABLE IF EXISTS `blogs`;
-CREATE TABLE blogs (
+CREATE TABLE `blogs` (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    'user_id' INT,
-    'title' VARCHAR(255) NOT NULL,
-    'content' TEXT NOT NULL,
+    `user_id` INT,
+    `title` VARCHAR(255) NOT NULL,
+    `content` TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
