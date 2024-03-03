@@ -14,7 +14,6 @@
         }else {
             $sql = "INSERT into users(username,password) VALUES('$username','$password')";
             if ($conn->query($sql) === TRUE){
-                echo 'User registered successfully !'.'<br>';
                 header('Location: login.php');
             }else{
                 echo 'Error: ' . $conn->error;
